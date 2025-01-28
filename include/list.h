@@ -1,38 +1,32 @@
 #ifndef LIST_H__
 #define LIST_H__
+
 #include "xmalloc.h"
 
-// list item for prime value
-typedef struct {
+typedef struct prime_ {
     unsigned long value;
-    struct prime * next;
+    struct prime_ * next;
 } prime_;
 
-// primes list
 typedef struct {
-    struct prime_ * head;
-    struct prime_ * tail;
+    size_t len;
+    prime_ * front;
 } primes_l;
 
+primes_l empty_list(void);
 
-static inline prime_ * create_prime(unsigned long value) {
-    prime_ * p = (prime_*)xmalloc(sizeof(prime_));
-    p->value = value;
-    p->next = NULL;
-    return p;
-}
+void list_clear(primes_l * l);
 
-primes_l * create_list(unsigned long value) {
-    primes_l * l = (primes_l*)xmalloc(sizeof(primes_l));
-    l->head = create_prime(value);
-    l->tail = l->head;
-    return l;
-}
+void list_print(primes_l * l);
 
-void pushb(primes_l * l , unsigned long value) {
-   l->head->next = create_prime(value);
-   l->head = l->head->next;
-   l->head->next = NULL;
-}
+void list_append(primes_l * l, unsigned long value);
+
+void list_insert_before(primes_l * l , unsigned long a, unsigned long b);
+
+void list_delete(primes_l * l , unsigned long value);
+
+void list_apply(primes_l * l , int (*fn_ptr)(unsigned long));
+
+void list_reduce(primes_l * l , int (*fn_ptr)(unsigned long, unsigned long));
 
 #endif // LIST_H__
