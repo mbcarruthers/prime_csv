@@ -33,13 +33,14 @@ unsigned int is_prime(unsigned long value) {
     } else if(value % 2 == 0 || value % 3 == 0) {
         return 0;
     } else {
-        for(int i = 5; i * i < value;i+=6) {
+        for(int i = 5; i * i <= value;i+=6) {
             if(value % i == 0 || value % (i+2) == 0)
                 return 0;
         }
         return 1;
     }
 }
+
 
 // takes all primes from file and transers them to a
 // buffer of unsigned long values
@@ -69,6 +70,8 @@ void parse_csv(unsigned long * dest, char * src, size_t len)
    }
 }
 
+
+
 int main(int argc , char ** argv)
 {
   if(argc > 2) {
@@ -81,6 +84,7 @@ int main(int argc , char ** argv)
   if(fp == NULL) {
       fprintf(stderr, "error opening file \n");
       fprintf(stderr, "%s \n", argv[1]);
+      return 1;
   }
 
   char buffer[SIZE] = {0}; // may as well be static too
